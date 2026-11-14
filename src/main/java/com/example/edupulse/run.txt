@@ -1,0 +1,12 @@
+in git bash (you only need to do this part the first time):
+
+ollama pull llama3.2
+ollama serve
+
+run this in terminal:
+./mvnw spring-boot:run
+
+to test (in git bash):
+curl -X POST http://localhost:8080/api/ollama/chat/summarize \
+  -H "Content-Type: text/plain" \
+  -d "Spring AI is a framework that provides abstractions for working with AI models. It supports chat, embeddings, and vector stores across many providers."
