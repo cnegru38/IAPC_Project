@@ -5,13 +5,14 @@ ollama pull nomic-embed-text
 ollama serve (optional)
 
 -- only if you have access to .env --
-add .env to resources, right next to application.yaml and pgvector.yml
+add .env to resources, right next to application.yaml and docker-compose.yml
 it's gitignored as per project rule "No secrets in the repository, and configuration is documented."
 
 open docker desktop, make sure it says "Engine running", then run this in terminal:
+cd src
 ./mvnw spring-boot:run
 
-*in case it doesn't build and you have to build the database yourself*
+* to build the database manually - DO NOT OMIT THIS STEP! *
 in git bash - open from resources:
 docker compose -f pgvector.yml up -d
 
@@ -20,5 +21,16 @@ curl -X POST http://localhost:8080/api/ollama/chat/summarize \
   -H "Content-Type: text/plain" \
   -d "Spring AI is a framework that provides abstractions for working with AI models. It supports chat, embeddings, and vector stores across many providers."
 
+or from one command line:
+curl -X POST http://localhost:8080/api/ollama/chat/summarize -H "Content-Type: text/plain" -d "Spring AI is a framework that provides abstractions for working with AI models. It supports chat, embeddings, and vector stores across many providers."
+
 to test if database exists (in git bash - from resources):
 docker exec -it pgvector psql -U edupulse -d edupulse -c "\dt"
+
+-- to run the eureka server application --
+to the left of the green "run" button, select "EurekaServerApplication" and run it
+then go to http://localhost:8761/
+
+alternatively you can run it through commands in terminal:
+cd eureka-server
+mvn spring-boot:run
