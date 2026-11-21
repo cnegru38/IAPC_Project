@@ -2,35 +2,69 @@ in git bash - from root (you only need to do this part the first time):
 
 ollama pull llama3.2
 ollama pull nomic-embed-text
-ollama serve (optional)
 
 -- only if you have access to .env --
-add .env to resources, right next to application.yaml and docker-compose.yml
+copy and paste .env in two places:
+1) in root, next to docker-compose.yml, .gitignore, etc
+2) in src/resources, next to application.yaml
+
+do not rename the file!
+
 it's gitignored as per project rule "No secrets in the repository, and configuration is documented."
 
-open docker desktop, make sure it says "Engine running", then run this in terminal:
-cd src
-./mvnw spring-boot:run
+-- this is currently completely separate from the app; src will become story 1 and needs to be rewritten --
+to test if ollama is running:
+- run EdupulseApplication in intellij (or ./mvnw spring-boot:run from root) <- note: needs docker engine running
 
-* to build the database manually - DO NOT OMIT THIS STEP! *
-in git bash - open from resources:
-docker compose -f pgvector.yml up -d
-
-to test if app is running (in git bash - from root):
-curl -X POST http://localhost:8080/api/ollama/chat/summarize \
+- then, in git bash - from root:
+curl -X POST http://localhost:8081/api/ollama/chat/summarize \
   -H "Content-Type: text/plain" \
   -d "Spring AI is a framework that provides abstractions for working with AI models. It supports chat, embeddings, and vector stores across many providers."
 
 or from one command line:
-curl -X POST http://localhost:8080/api/ollama/chat/summarize -H "Content-Type: text/plain" -d "Spring AI is a framework that provides abstractions for working with AI models. It supports chat, embeddings, and vector stores across many providers."
+curl -X POST http://localhost:8081/api/ollama/chat/summarize -H "Content-Type: text/plain" -d "Spring AI is a framework that provides abstractions for working with AI models. It supports chat, embeddings, and vector stores across many providers."
 
-to test if database exists (in git bash - from resources):
+WARNING: ollama can be slow when ran locally. it should work but it takes time.
+
+to test if database exists (in git bash - from root):
 docker exec -it pgvector psql -U edupulse -d edupulse -c "\dt"
 
--- to run the eureka server application --
-to the left of the green "run" button, select "EurekaServerApplication" and run it
-then go to http://localhost:8761/
+-- HOW TO RUN AFTER REFACTORING PROJECT STRUCTURE --
+0. in case you have the old pgvector database - it needs to be deleted and recreated
+in git bash - from root, run these in order, with docker desktop running :
 
-alternatively you can run it through commands in terminal:
-cd eureka-server
-mvn spring-boot:run
+docker compose -p resources down -v
+docker compose up -d --build
+
+wait about 2-3 minutes for everything to be recreated, then run
+docker compose ps
+
+and everything should say "Healthy"
+
+1. check these to make sure everything works as intended:
+a. eureka server is connected to the api gateway
+http://localhost:8761/ - should list "API_GATEWAY" as an instance currently registered with eureka
+if it doesn't just keep refreshing until it appears, it takes a few minutes
+
+b. api gateway works
+in git bash from root - run:
+curl http://localhost:8080/actuator/health
+you should get {"groups":["liveness","readiness"],"status":"UP"}
+
+c. test if database exists (same as above)
+docker exec -it pgvector psql -U edupulse -d edupulse -c "\dt"
+
+note: running from intellij (VERY optional)
+
+apps that use the database (edupulse, the story services) need the pgvector container running, so docker must be up.
+HOWEVER - each service runs either in docker or in intellij, never both.
+this means if the docker containers for eureka-server or api-gateway are up, they will fail to build from intellij.
+before starting one from intellij, you have to stop their containers manually.
+in git bash:
+docker compose stop eureka-server
+docker compose stop api-gateway
+
+then you can run the apps from intellij
+
+to turn the containers back on:
+docker compose up -d
