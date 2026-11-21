@@ -3,6 +3,12 @@ REQUIREMENTS:
 * Docker Desktop with "Open Source Management Tool for PostgreSQL"
 * Git + Git Bash
 * An IDE (IntelliJ, VSCode) (if you want to modify the code)
+* Java JDK 21
+* Maven
 
 MILESTONES:
 * 20.11.2026 - Cosmin - configured base architecture (api gateway, eureka server)
+* 21.11.2026 - Cosmin - finalized base project architecture (ingest-static, ingest-dynamic, retrieval-post, retrieval-pre)
+
+TODO:
+* Add Docker component for ingest-static

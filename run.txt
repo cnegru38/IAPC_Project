@@ -6,15 +6,14 @@ ollama pull nomic-embed-text
 -- only if you have access to .env --
 copy and paste .env in two places:
 1) in root, next to docker-compose.yml, .gitignore, etc
-2) in src/resources, next to application.yaml
+2) in ingest-static/src/main/java/resources, next to application.yaml
 
 do not rename the file!
 
 it's gitignored as per project rule "No secrets in the repository, and configuration is documented."
 
--- this is currently completely separate from the app; src will become story 1 and needs to be rewritten --
 to test if ollama is running:
-- run EdupulseApplication in intellij (or ./mvnw spring-boot:run from root) <- note: needs docker engine running
+- run EdupulseApplication in intellij (or ./mvnw spring-boot:run from ingest-static) <- note: needs docker engine running
 
 - then, in git bash - from root:
 curl -X POST http://localhost:8081/api/ollama/chat/summarize \
