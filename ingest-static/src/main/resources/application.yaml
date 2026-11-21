@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: edupulse
+    name: ingest-static
   config:
     import: optional:classpath:.env[.properties]
   datasource:
