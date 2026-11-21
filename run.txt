@@ -6,7 +6,7 @@ ollama pull nomic-embed-text
 -- only if you have access to .env --
 copy and paste .env in two places:
 1) in root, next to docker-compose.yml, .gitignore, etc
-2) in ingest-static/src/main/java/resources, next to application.yaml
+2) in ingest-static/src/main/resources, next to application.yaml
 
 do not rename the file!
 
