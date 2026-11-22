@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "Story 3 Task 1 - Safe Metadata Filtering",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 No filter (normal flow)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate"
+      },
+      "response": []
+    },
+    {
+      "name": "02 Valid source filter",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22field%22%3A%22source%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22pdf3.pdf%22%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "03 Valid page numeric filter",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22field%22%3A%22page%22%2C%22op%22%3A%22gte%22%2C%22value%22%3A1%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "04 AND",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22logic%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22field%22%3A%22source%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22pdf3.pdf%22%7D%2C%7B%22field%22%3A%22page%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A1%7D%5D%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "05 OR",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22logic%22%3A%22OR%22%2C%22filters%22%3A%5B%7B%22field%22%3A%22source%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22pdf1.pdf%22%7D%2C%7B%22field%22%3A%22source%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22pdf3.pdf%22%7D%5D%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "06 Nested AND/OR",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22logic%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22field%22%3A%22page%22%2C%22op%22%3A%22gte%22%2C%22value%22%3A1%7D%2C%7B%22logic%22%3A%22OR%22%2C%22filters%22%3A%5B%7B%22field%22%3A%22source%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22pdf1.pdf%22%7D%2C%7B%22field%22%3A%22source%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22pdf3.pdf%22%7D%5D%7D%5D%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "07 Bad field -> 400",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22field%22%3A%22password%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22x%22%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "08 Bad operator -> 400",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22field%22%3A%22source%22%2C%22op%22%3A%22contains%22%2C%22value%22%3A%22pdf%22%7D"
+      },
+      "response": []
+    },
+    {
+      "name": "09 Wrong page type -> 400",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/retrieval-pre/filter/validate?filter=%7B%22field%22%3A%22page%22%2C%22op%22%3A%22eq%22%2C%22value%22%3A%22first%22%7D"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
