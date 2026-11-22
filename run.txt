@@ -29,13 +29,22 @@ to test if database exists (in git bash - from root):
 docker exec -it pgvector psql -U edupulse -d edupulse -c "\dt"
 
 -- HOW TO RUN AFTER REFACTORING PROJECT STRUCTURE --
-0. in case you have the old pgvector database - it needs to be deleted and recreated
+0a. in case you have the old pgvector database - it needs to be deleted and recreated
 in git bash - from root, run these in order, with docker desktop running :
 
-docker compose -p resources down -v
+docker compose -p resources down -v <- only if you have access to the old version where docker-compose.yml was in resources
 docker compose up -d --build
 
 wait about 2-3 minutes for everything to be recreated, then run
+docker compose ps
+
+and everything should say "Healthy"
+
+0b. creating a new database if no prior database exists
+in git bash, from root:
+docker compose up -d --build
+
+then after 2-3 minutes, run
 docker compose ps
 
 and everything should say "Healthy"

@@ -21,7 +21,10 @@ services:
     restart: unless-stopped
 
   eureka-server:
-    build: ./eureka-server
+    build:
+      context: .
+      args:
+        MODULE: eureka-server
     ports:
       - "127.0.0.1:8761:8761"
     healthcheck:
@@ -33,7 +36,10 @@ services:
     restart: unless-stopped
 
   api-gateway:
-    build: ./api-gateway
+    build:
+      context: .
+      args:
+        MODULE: api-gateway
     ports:
       - "8080:8080"                    # the only public port
     environment:
