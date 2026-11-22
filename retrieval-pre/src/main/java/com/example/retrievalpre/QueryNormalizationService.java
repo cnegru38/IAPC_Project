@@ -16,7 +16,7 @@ public class QueryNormalizationService {
     // All regexes are compiled once, have no nested quantifiers, and run in a fixed order.
     private static final Pattern LOG_LINE_BREAKS = Pattern.compile("[\\r\\n]");
     private static final Pattern WHITESPACE = Pattern.compile("\\s+");
-    private static final Pattern TRAILING_QUESTIONS = Pattern.compile("[?？]+\\s*$");
+    private static final Pattern TRAILING_QUESTIONS = Pattern.compile("[?？][?？\\s]*$");
     private static final List<Pattern> POLITE_PREFIXES = List.of(
             Pattern.compile("^(?:could|would) you please\\s+", Pattern.CASE_INSENSITIVE),
             Pattern.compile("^can you please\\s+", Pattern.CASE_INSENSITIVE),

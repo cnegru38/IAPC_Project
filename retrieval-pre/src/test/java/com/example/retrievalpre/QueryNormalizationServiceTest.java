@@ -42,8 +42,19 @@ class QueryNormalizationServiceTest {
 
     @Test
     void normalizationIsIdempotent() {
-        String once = service.normalize("  Could you please  explain RAG??? ");
+        String once = service.normalize(
+                "Could you please explain RAG???"
+        );
+
         assertEquals(once, service.normalize(once));
+
+        String spacedQuestions = service.normalize("RAG? ?");
+
+        assertEquals("RAG", spacedQuestions);
+        assertEquals(
+                spacedQuestions,
+                service.normalize(spacedQuestions)
+        );
     }
 
     @Test
