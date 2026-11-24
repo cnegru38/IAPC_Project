@@ -9,6 +9,7 @@ REQUIREMENTS:
 MILESTONES:
 * 20.11.2026 - Cosmin - configured base architecture (api gateway, eureka server)
 * 21.11.2026 - Cosmin - finalized base project architecture (ingest-static, ingest-dynamic, retrieval-post, retrieval-pre)
+* 22.11.2026 - Ingrid - story 3 task1+task2
 
 TODO:
 * Add Docker component for ingest-static
